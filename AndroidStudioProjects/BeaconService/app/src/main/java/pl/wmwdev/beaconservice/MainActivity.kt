@@ -24,13 +24,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        lifecycleScope.launch {
-            try {
-                val actionList = RetrofitRepo.api.getElements()
-                binding.recyclerView.adapter = ElementAdapter(actionList)
-                Log.d("API", "Pobrano: ${actionList.size} elementów")
-            } catch (e: Exception) {
-                Log.e("API", "Bład: ${e.message}")
+        binding.addActionButton.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    val actionList = RetrofitRepo.api.getElements()
+                    binding.recyclerView.adapter = ElementAdapter(actionList)
+                    Log.d("API", "Pobrano: ${actionList.size} elementów")
+                } catch (e: Exception) {
+                    Log.e("API", "Bład: ${e.message}")
+                }
             }
         }
     }
