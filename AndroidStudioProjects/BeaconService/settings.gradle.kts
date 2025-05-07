@@ -19,5 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
+
+
 rootProject.name = "BeaconService"
 include(":app")

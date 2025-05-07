@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pl.wmwdev.beaconservice.databinding.ActionItemLayoutBinding
 
-class ElementAdapter(private val items: List<Action>) : RecyclerView.Adapter<ElementAdapter.ElementViewHolder>() {
+class ActionAdapter(private val items: List<Action>) : RecyclerView.Adapter<ActionAdapter.ElementViewHolder>() {
 
 
    inner class ElementViewHolder(val binding: ActionItemLayoutBinding) :

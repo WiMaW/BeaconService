@@ -1,9 +1,7 @@
 package pl.wmwdev.beaconservice
 
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 object RetrofitRepo {
     private const val BASE_URL = "https://actioncreatorapi.onrender.com/"
@@ -14,5 +12,16 @@ object RetrofitRepo {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+}
+
+class ActionRepo {
+    suspend fun fetchElements(): ApiResponse<List<Action>> {
+        return try {
+            val data = RetrofitRepo.api.getElements()
+            ApiResponse.Success(data)
+        } catch(e: Exception) {
+            ApiResponse.Error(e.message ?: "Api Error")
+        }
     }
 }
