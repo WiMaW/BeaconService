@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                             is ApiResponse.Error -> {
                                 binding.progressBar.visibility = View.GONE
                                 Toast.makeText(this@MainActivity, response.message, Toast.LENGTH_SHORT).show()
+                                Log.e("API", response.message)
                             }
                         }
 
