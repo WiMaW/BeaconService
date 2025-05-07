@@ -3,6 +3,7 @@ package pl.wmwdev.beaconservice
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import pl.wmwdev.beaconservice.data.Action
 import pl.wmwdev.beaconservice.databinding.ActionItemLayoutBinding
 
 class ActionAdapter(private val items: List<Action>) : RecyclerView.Adapter<ActionAdapter.ElementViewHolder>() {

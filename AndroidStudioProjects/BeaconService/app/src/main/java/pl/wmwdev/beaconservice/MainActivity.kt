@@ -1,20 +1,24 @@
 package pl.wmwdev.beaconservice
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import pl.wmwdev.beaconservice.data.remote.ApiResponse
 import pl.wmwdev.beaconservice.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
@@ -34,25 +38,40 @@ class MainActivity : AppCompatActivity() {
 
         binding.addActionButton.setOnClickListener {
             viewModel.loadElements()
+            showElementsDialog(this@MainActivity)
+        }
+    }
 
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.elements.collect { response ->
-                        when(response) {
-                            ApiResponse.Loading -> binding.progressBar.visibility = View.VISIBLE
+    fun showElementsDialog(context: Context) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_elements, null)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.recycler_view)
+        val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBar)
 
-                            is ApiResponse.Success -> {
-                                binding.progressBar.visibility = View.GONE
-                                binding.recyclerView.adapter = ActionAdapter(response.data)
-                            }
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-                            is ApiResponse.Error -> {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(this@MainActivity, response.message, Toast.LENGTH_SHORT).show()
-                                Log.e("API", response.message)
-                            }
+        AlertDialog.Builder(context)
+            .setTitle("Elementy z Api")
+            .setView(dialogView)
+            .show()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.elements.collect { response ->
+                    when(response) {
+                        ApiResponse.Loading -> {
+                            progressBar.visibility = View.VISIBLE
                         }
 
+                        is ApiResponse.Success -> {
+                            recyclerView.adapter = ActionAdapter(response.data)
+                            progressBar.visibility = View.GONE
+                        }
+
+                        is ApiResponse.Error -> {
+                            progressBar.visibility = View.GONE
+                            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                            Log.e("API", response.message)
+                        }
                     }
                 }
             }

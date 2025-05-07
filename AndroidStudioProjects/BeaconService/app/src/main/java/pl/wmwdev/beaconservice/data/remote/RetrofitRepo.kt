@@ -1,6 +1,7 @@
-package pl.wmwdev.beaconservice
+package pl.wmwdev.beaconservice.data.remote
 
 import okhttp3.OkHttpClient
+import pl.wmwdev.beaconservice.data.Action
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit

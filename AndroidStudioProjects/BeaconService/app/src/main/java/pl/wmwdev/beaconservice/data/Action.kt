@@ -1,4 +1,4 @@
-package pl.wmwdev.beaconservice
+package pl.wmwdev.beaconservice.data
 
 data class Action (
     val name: String = "",
