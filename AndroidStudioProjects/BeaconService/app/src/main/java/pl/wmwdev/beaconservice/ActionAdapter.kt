@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.wmwdev.beaconservice.data.Action
 import pl.wmwdev.beaconservice.databinding.ActionItemLayoutBinding
 
-class ActionAdapter(private val items: List<Action>) : RecyclerView.Adapter<ActionAdapter.ElementViewHolder>() {
+class ActionAdapter(
+    private val items: List<Action>,
+    private val onClick: (Action) -> Unit
+) : RecyclerView.Adapter<ActionAdapter.ElementViewHolder>() {
 
 
    inner class ElementViewHolder(val binding: ActionItemLayoutBinding) :
@@ -27,5 +30,9 @@ class ActionAdapter(private val items: List<Action>) : RecyclerView.Adapter<Acti
     override fun onBindViewHolder(holder: ElementViewHolder, position: Int) {
         val item = items[position]
         holder.binding.nameTextView.text = item.name
+
+        holder.binding.root.setOnClickListener {
+            onClick(item)
+        }
     }
 }
