@@ -1,9 +1,13 @@
 package pl.wmwdev.beaconservice.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Action (
     val name: String = "",
     val text: String = "",
     val image: String = "",
     val audio: String = "",
     val video: String = ""
-)
+) : Parcelable

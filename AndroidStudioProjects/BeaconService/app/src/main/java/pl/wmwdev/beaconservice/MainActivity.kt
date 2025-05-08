@@ -80,8 +80,9 @@ fun showElementsDialog(
                     }
 
                     is ApiResponse.Success -> {
-                        recyclerView.adapter = ActionAdapter(response.data, {
+                        recyclerView.adapter = ActionAdapter(response.data, { selectedElement ->
                             val intent = Intent(context, EditActivity::class.java)
+                            intent.putExtra("element", selectedElement)
                             context.startActivity(intent)
                         })
                         progressBar.visibility = View.GONE
