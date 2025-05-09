@@ -16,39 +16,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/block1preview"
-        android:layout_width="205dp"
+    <Button
+        android:id="@+id/addBlock1Button"
+        android:layout_width="350dp"
         android:layout_height="45dp"
         android:layout_marginStart="25dp"
         android:backgroundTint="@color/cardview_dark_background"
+        android:text="dodaj Blok1"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameEditText" />
 
     <Space
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/block1preview"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="10dp"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/block2_1preview"
-        android:layout_width="90dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="25dp"
-        android:backgroundTint="@color/cardview_dark_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider" />
+        app:layout_constraintTop_toBottomOf="@id/addBlock1Button" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/block2_2preview"
-        android:layout_width="90dp"
+    <Button
+        android:id="@+id/addBlock2Button"
+        android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginStart="25dp"
         android:backgroundTint="@color/cardview_dark_background"
-        app:layout_constraintStart_toEndOf="@id/block2_1preview"
+        android:text="dodaj Blok2"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
     <TextView
@@ -58,7 +53,7 @@
         android:text="Skład:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/block2_1preview" />
+        app:layout_constraintTop_toBottomOf="@id/addBlock2Button" />
 
     <TextView
         android:id="@+id/textTextView"
@@ -120,12 +115,13 @@
         app:layout_constraintTop_toBottomOf="@id/cancelButton" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/blocksRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/previewTextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/previewTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,6 +52,9 @@ dependencies {
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.runtime.ktx)
 
+    //glide
+    implementation(libs.glide)
+    kapt(libs.compiler)
 
     //hilt
     implementation(libs.hilt.android)
