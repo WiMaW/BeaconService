@@ -1,13 +1,10 @@
 package pl.wmwdev.beaconservice
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.set
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import pl.wmwdev.beaconservice.data.Action
 import pl.wmwdev.beaconservice.databinding.ActivityEditBinding
 
@@ -26,11 +23,19 @@ class EditActivity : AppCompatActivity() {
 
         displayElementItems(binding, element)
 
+        binding.cancelButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.block1preview.setOnClickListener {
+
+        }
     }
 }
 
 fun displayElementItems(binding: ActivityEditBinding, element: Action?) {
-    binding.textTextView.text = element?.text
+    binding.textTextView.text = element?.tekst
     binding.imageTextView.text = element?.image
     binding.videoTextView.text = element?.video
     binding.audioTextView.text = element?.audio

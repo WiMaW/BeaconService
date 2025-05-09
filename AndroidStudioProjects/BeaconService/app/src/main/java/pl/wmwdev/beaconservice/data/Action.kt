@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Action (
     val name: String = "",
-    val text: String = "",
+    val tekst: String = "",
     val image: String = "",
     val audio: String = "",
     val video: String = ""
