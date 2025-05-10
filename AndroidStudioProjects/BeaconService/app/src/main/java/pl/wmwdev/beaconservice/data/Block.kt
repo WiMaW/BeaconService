@@ -9,7 +9,7 @@ sealed class Block (
 
 data class Block1 (
     override var content: String = ""
-) : Block(height = 250, width = 600, color = 0xFFF3D7E1.toInt(), content = content)
+) : Block(height = 250, width = 660, color = 0xFFF3D7E1.toInt(), content = content)
 
 data class Block2 (
     override var content: String = ""

@@ -7,15 +7,25 @@ import android.provider.MediaStore.Audio.Media
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.bumptech.glide.Glide
 import pl.wmwdev.beaconservice.data.Block
+import pl.wmwdev.beaconservice.data.Block1
+import pl.wmwdev.beaconservice.data.Block2
 import pl.wmwdev.beaconservice.databinding.BlockItemLayoutBinding
 
 class BlockAdapter(
     private val blockList: MutableList<Block>,
     private val onClick: (Block) -> Unit
 ) : RecyclerView.Adapter<BlockAdapter.BlockViewHolder>() {
+
+    companion object {
+        const val TYPE_BLOCK1 = 1
+        const val TYPE_BLOCK2 = 2
+    }
 
     inner class BlockViewHolder(val binding: BlockItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -37,6 +47,11 @@ class BlockAdapter(
         }
 
         binding.root.setBackgroundColor(block.color)
+
+        binding.textView.visibility = View.GONE
+        binding.imageView.visibility = View.GONE
+        binding.videoView.visibility = View.GONE
+        binding.audioButton.visibility = View.GONE
 
         if (block.content.isBlank()) {
             binding.textView.visibility = View.VISIBLE
@@ -81,14 +96,30 @@ class BlockAdapter(
 
     fun addBlock(block: Block) {
         blockList.add(block)
+//        when(block) {
+//            is Block1 -> blockList.add(block)
+//            is Block2 -> {
+//                blockList.add(block)
+//                blockList.add(block)
+//            }
+//        }
         notifyItemInserted(blockList.size - 1)
     }
 
-    private fun isImage(content: String): Boolean = content.endsWith(".jpg", true) || content.endsWith(".png", true)
+    private fun isImage(content: String): Boolean = content.matches(Regex("https?://.*\\.(jpg|jpeg|png|webp)", RegexOption.IGNORE_CASE))
 
-    private fun isAudio(content: String): Boolean = content.endsWith(".mp3", true)
+    private fun isVideo(content: String): Boolean =
+        content.matches(Regex(""".*\.mp4(\?.*)?$""", RegexOption.IGNORE_CASE))
 
-    private fun isVideo(content: String): Boolean = content.endsWith("mp4", true )
+    private fun isAudio(content: String): Boolean =
+        content.matches(Regex(""".*\.mp3(\?.*)?$""", RegexOption.IGNORE_CASE))
 
     override fun getItemCount(): Int = blockList.size
+
+    override fun getItemViewType(position: Int): Int {
+        return when (blockList[position]) {
+            is Block1 -> TYPE_BLOCK1
+            is Block2 -> TYPE_BLOCK2
+        }
+    }
 }

@@ -9,7 +9,6 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import pl.wmwdev.beaconservice.data.Action
 import pl.wmwdev.beaconservice.data.Block
 import pl.wmwdev.beaconservice.data.Block1
@@ -35,11 +34,21 @@ class EditActivity : AppCompatActivity() {
 
         //recyclerView
         adapter = BlockAdapter(blocks) { block ->
-            showAddItemDialog(block, this, adapter, element)
+            showAddItemDialog(block, this, adapter, extractOptionFromElement(element))
         }
 
-        binding.blocksRecyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = GridLayoutManager(this, 2) // 2 kolumny
 
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapter.getItemViewType(position)) {
+                    BlockAdapter.TYPE_BLOCK1 -> 2 // zajmuje cały rząd
+                    BlockAdapter.TYPE_BLOCK2 -> 1 // połowa rzędu
+                    else -> 2
+                }
+            }
+        }
+        binding.blocksRecyclerView.layoutManager = layoutManager
         binding.blocksRecyclerView.adapter = adapter
 
 
@@ -56,6 +65,7 @@ class EditActivity : AppCompatActivity() {
 
         binding.addBlock2Button.setOnClickListener {
             adapter.addBlock(Block2())
+            adapter.addBlock(Block2())
         }
     }
 
@@ -69,19 +79,34 @@ fun displayElementItems(binding: ActivityEditBinding, element: Action?) {
     binding.audioTextView.text = element?.audio
 }
 
-private fun showAddItemDialog(block: Block, context: Context, adapter: BlockAdapter, element: Action?) {
+private fun showAddItemDialog(block: Block, context: Context, adapter: BlockAdapter, options: List<String>) {
     val editText = EditText(context).apply {
         setText(block.content)
     }
 
     AlertDialog.Builder(context)
         .setTitle("Wprowadź treść lub URL")
-
-        .setView(editText)
+        .setItems(options.toTypedArray()) { _, index ->
+            block.content = options[index].substringAfter(" ")
+            adapter.notifyDataSetChanged()
+        }
         .setPositiveButton("Zapisz") { _, _ ->
             block.content = editText.text.toString()
             adapter.notifyDataSetChanged()
         }
         .setNegativeButton("Anuluj", null)
         .show()
+}
+
+fun extractOptionFromElement(element: Action?) : List<String> {
+    if(element == null) return emptyList()
+
+    val options: List<String> = listOf(
+        element.tekst,
+        element.image,
+        element.video,
+        element.audio
+    ).filter { it.isNotBlank() }
+
+    return options
 }
