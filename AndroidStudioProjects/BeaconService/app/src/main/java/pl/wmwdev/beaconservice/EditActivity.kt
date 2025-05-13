@@ -13,6 +13,7 @@ import pl.wmwdev.beaconservice.data.Action
 import pl.wmwdev.beaconservice.data.Block
 import pl.wmwdev.beaconservice.data.Block1
 import pl.wmwdev.beaconservice.data.Block2
+import pl.wmwdev.beaconservice.data.Block3
 import pl.wmwdev.beaconservice.databinding.ActivityEditBinding
 
 class EditActivity : AppCompatActivity() {
@@ -67,16 +68,20 @@ class EditActivity : AppCompatActivity() {
             adapter.addBlock(Block2())
             adapter.addBlock(Block2())
         }
+
+        binding.addBlock3Button.setOnClickListener {
+            adapter.addBlock(Block3())
+        }
     }
 
 
 }
 
 fun displayElementItems(binding: ActivityEditBinding, element: Action?) {
-    binding.textTextView.text = element?.tekst
-    binding.imageTextView.text = element?.image
-    binding.videoTextView.text = element?.video
-    binding.audioTextView.text = element?.audio
+    if (!element?.tekst.isNullOrBlank()) binding.textTextView.text = "Tekst"
+    if (!element?.image.isNullOrBlank()) binding.imageTextView.text = "Zdjęcie"
+    if (!element?.video.isNullOrBlank()) binding.videoTextView.text = "Film"
+    if (!element?.audio.isNullOrBlank()) binding.audioTextView.text = "Dźwięk"
 }
 
 private fun showAddItemDialog(block: Block, context: Context, adapter: BlockAdapter, options: List<String>) {

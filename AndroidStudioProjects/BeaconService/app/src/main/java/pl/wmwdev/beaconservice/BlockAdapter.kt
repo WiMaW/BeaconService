@@ -1,20 +1,17 @@
 package pl.wmwdev.beaconservice
 
-import android.media.Image
 import android.media.MediaPlayer
 import android.net.Uri
-import android.provider.MediaStore.Audio.Media
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.MediaController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.bumptech.glide.Glide
 import pl.wmwdev.beaconservice.data.Block
 import pl.wmwdev.beaconservice.data.Block1
 import pl.wmwdev.beaconservice.data.Block2
+import pl.wmwdev.beaconservice.data.Block3
 import pl.wmwdev.beaconservice.databinding.BlockItemLayoutBinding
 
 class BlockAdapter(
@@ -51,7 +48,7 @@ class BlockAdapter(
         binding.textView.visibility = View.GONE
         binding.imageView.visibility = View.GONE
         binding.videoView.visibility = View.GONE
-        binding.audioButton.visibility = View.GONE
+        binding.audioControlButton.visibility = View.GONE
 
         if (block.content.isBlank()) {
             binding.textView.visibility = View.VISIBLE
@@ -66,22 +63,53 @@ class BlockAdapter(
                 }
 
                 isAudio(block.content) -> {
-                    binding.audioButton.visibility = View.VISIBLE
-                    binding.audioButton.setOnClickListener {
-                        val mediaPlayer = MediaPlayer().apply {
-                            setDataSource(block.content)
-                            prepare()
-                            start()
+                    binding.audioControlButton.visibility = View.VISIBLE
+                    val mediaPlayer = MediaPlayer()
+                    mediaPlayer.setDataSource(block.content)
+                    mediaPlayer.prepare()
+
+                    var isPlaying = false
+
+                    binding.audioControlButton.text = "▶"
+
+                    binding.audioControlButton.setOnClickListener {
+                        if (isPlaying) {
+                            mediaPlayer.pause()
+                            binding.audioControlButton.text = "▶"
+                        } else {
+                            mediaPlayer.start()
+                            binding.audioControlButton.text = "⏸"
                         }
+                        isPlaying = !isPlaying
                     }
                 }
 
                 isVideo(block.content) -> {
                     binding.videoView.visibility = View.VISIBLE
                     binding.videoView.setVideoURI(Uri.parse(block.content))
-                    binding.videoView.setOnPreparedListener { it.isLooping = true }
-                    binding.videoView.start()
+
+                    binding.videoView.setOnPreparedListener { mediaPlayer ->
+                        val videoWidth = mediaPlayer.videoWidth
+                        val videoHeight = mediaPlayer.videoHeight
+
+                        val layoutParams = binding.videoView.layoutParams
+                        val containerWidth = block.width
+
+                        val scale = videoHeight.toFloat() / videoWidth.toFloat()
+                        layoutParams.width = containerWidth
+                        layoutParams.height = (containerWidth * scale).toInt()
+                        binding.videoView.layoutParams = layoutParams
+
+                        // Dodaj MediaController
+                        val mediaController = MediaController(binding.videoView.context)
+                        mediaController.setAnchorView(binding.videoView)
+                        binding.videoView.setMediaController(mediaController)
+
+                        mediaController.show() // pokazuje od razu (opcjonalne)
+                        binding.videoView.start()
+                    }
                 }
+
 
                 else -> {
                     binding.textView.visibility = View.VISIBLE
@@ -96,13 +124,6 @@ class BlockAdapter(
 
     fun addBlock(block: Block) {
         blockList.add(block)
-//        when(block) {
-//            is Block1 -> blockList.add(block)
-//            is Block2 -> {
-//                blockList.add(block)
-//                blockList.add(block)
-//            }
-//        }
         notifyItemInserted(blockList.size - 1)
     }
 
@@ -120,6 +141,7 @@ class BlockAdapter(
         return when (blockList[position]) {
             is Block1 -> TYPE_BLOCK1
             is Block2 -> TYPE_BLOCK2
+            is Block3 -> TYPE_BLOCK1
         }
     }
 }

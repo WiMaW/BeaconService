@@ -10,7 +10,7 @@
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:hint="Nazwa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,11 +18,11 @@
 
     <Button
         android:id="@+id/addBlock1Button"
-        android:layout_width="350dp"
-        android:layout_height="45dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginStart="25dp"
         android:backgroundTint="@color/cardview_dark_background"
-        android:text="dodaj Blok1"
+        android:text="dodaj"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameEditText" />
@@ -30,85 +30,113 @@
     <Space
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addBlock1Button" />
 
     <Button
         android:id="@+id/addBlock2Button"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_marginStart="25dp"
         android:backgroundTint="@color/cardview_dark_background"
-        android:text="dodaj Blok2"
+        android:text="dodaj"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <Space
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addBlock2Button" />
+
+    <Button
+        android:id="@+id/addBlock3Button"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:backgroundTint="@color/cardview_dark_background"
+        android:text="dodaj"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider2" />
 
     <TextView
         android:id="@+id/elementsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skład:"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="10dp"
+        android:text="Do dodania:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addBlock2Button" />
+        app:layout_constraintTop_toBottomOf="@id/addBlock3Button" />
 
-    <TextView
-        android:id="@+id/textTextView"
+    <LinearLayout
+        android:id="@+id/LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elementsTextView" />
+        app:layout_constraintTop_toBottomOf="@id/elementsTextView">
 
-    <TextView
-        android:id="@+id/imageTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTextView" />
+        <TextView
+            android:id="@+id/textTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp" />
 
-    <TextView
-        android:id="@+id/videoTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageTextView" />
+        <TextView
+            android:id="@+id/imageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp" />
 
-    <TextView
-        android:id="@+id/audioTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/videoTextView" />
+        <TextView
+            android:id="@+id/videoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp" />
+
+        <TextView
+            android:id="@+id/audioTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
+        android:layout_marginBottom="10dp"
         android:text="Anuluj"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioTextView" />
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
+        android:layout_marginBottom="10dp"
         android:text="Zapisz"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioTextView" />
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
 
     <TextView
         android:id="@+id/previewTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="10dp"
         android:text="Podgląd:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +144,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/blocksRecyclerView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
